@@ -20,7 +20,7 @@ public class ProjectController {
 
 	@PostMapping("")
 	public ResponseEntity<Project> createProject(@RequestBody Project project) {
-		Project project1 = this.projectService.saveOrUpdate(project);
-		return new ResponseEntity<Project>(project1, HttpStatus.CREATED);
+		Project newproject = this.projectService.saveOrUpdate(project);
+		return new ResponseEntity<Project>(newproject, HttpStatus.CREATED);
 	}
 }

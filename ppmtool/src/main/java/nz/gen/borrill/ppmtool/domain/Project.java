@@ -3,30 +3,48 @@ package nz.gen.borrill.ppmtool.domain;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Project {
 
+	private static final String DATE_FORMAT = "yyyy-MM-dd";
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	
+	@NotBlank(message="Project name is required")
 	private String projectName;
+	
+	@NotBlank(message="Project identifier is required")
+	@Size(min=4, max=5, message="Please use 4 to 5 characters")
+	@Column(updatable=false, unique=true)	
 	private String projectIdentifier;
+	
+	@NotBlank(message="Project description is required")
 	private String description;
+	
+	@JsonFormat(pattern=DATE_FORMAT)
 	private Date startDate;
+	@JsonFormat(pattern=DATE_FORMAT)
 	private Date endDate;
+	@JsonFormat(pattern=DATE_FORMAT)
 	private Date createdAt;
+	@JsonFormat(pattern=DATE_FORMAT)
 	private Date updatedAt;
 	
-	public Project() {
-		super();
-	}
+	public Project() {}
 	
 	@PrePersist
 	protected void onCreate() {
@@ -102,5 +120,4 @@ public class Project {
 		this.updatedAt = updatedAt;
 	}
 	
-
 }
