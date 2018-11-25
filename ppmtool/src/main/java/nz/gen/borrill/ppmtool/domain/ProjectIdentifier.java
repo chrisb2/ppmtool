@@ -11,7 +11,7 @@ public class ProjectIdentifier {
 	@NotBlank(message="Project identifier is required")
 	@Size(min=4, max=5, message="Please use 4 to 5 characters")
 	@Column(name="projectIdentifier", updatable=false, unique=true)	
-	private String id;
+	private String projectId;
 	
 	public ProjectIdentifier() {}
 	
@@ -21,16 +21,16 @@ public class ProjectIdentifier {
 	}
 
 	public String getId() {
-		return id;
+		return projectId;
 	}
 
 	public void setId(String id) {
-		this.id = id.toUpperCase();
+		this.projectId = id.toUpperCase();
 	}
 
 	@Override
 	public String toString() {
-		return this.id;
+		return this.projectId;
 	}
 	
 	

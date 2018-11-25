@@ -23,7 +23,7 @@ public class ProjectService {
 	}
 	
 	public Project findProjectByIdentifier(ProjectIdentifier projectIdentifier) {
-		Project project = projectRepository.findByProjectIdentifierId(projectIdentifier.getId());
+		Project project = projectRepository.findByProjectIdentifierProjectId(projectIdentifier.getId());
 		if (project==null) {
 			throw new ProjectIdException(String.format("Project identifier '%s' does not exist",  projectIdentifier));
 		}
@@ -35,7 +35,7 @@ public class ProjectService {
 	}
 	
 	public void deleteByIdentifier(ProjectIdentifier projectIdentifier) {
-		Project project = projectRepository.findByProjectIdentifierId(projectIdentifier.getId());
+		Project project = projectRepository.findByProjectIdentifierProjectId(projectIdentifier.getId());
 		if (project==null) {
 			throw new ProjectIdException(String.format("Cannot delete project with identifier '%s', it does not exist",  projectIdentifier));
 		}
