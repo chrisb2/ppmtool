@@ -8,7 +8,7 @@ import nz.gen.borrill.ppmtool.domain.Project;
 @Repository
 public interface ProjectRepository extends CrudRepository<Project, Long> {
 
-	Project findByProjectIdentifier(String projectIdentifier);
+	Project findByProjectIdentifierId(String projectIdentifier);
 
 	@Override
 	Iterable<Project> findAll();

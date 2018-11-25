@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import nz.gen.borrill.ppmtool.domain.Project;
+import nz.gen.borrill.ppmtool.domain.ProjectIdentifier;
 import nz.gen.borrill.ppmtool.services.MapValidationErrorService;
 import nz.gen.borrill.ppmtool.services.ProjectService;
 
@@ -40,7 +41,7 @@ public class ProjectController {
 	
 	@GetMapping("/{projectId}")
 	public ResponseEntity<?> getByIdentifier(@PathVariable String projectId) {
-		Project project = projectService.findProjectByIdentifier(projectId);
+		Project project = projectService.findProjectByIdentifier(new ProjectIdentifier(projectId));
 		return new ResponseEntity<Project>(project, HttpStatus.OK);
 	}
 	
@@ -51,8 +52,9 @@ public class ProjectController {
 	
 	@DeleteMapping("/{projectId}")
 	public ResponseEntity<?> deleteByIdentifier(@PathVariable String projectId) {
-		projectService.deleteByIdentifier(projectId.toUpperCase());
-		return new ResponseEntity<String>(String.format("Project with identifier '%s' was deleted", projectId.toUpperCase()), HttpStatus.OK);
+		ProjectIdentifier id = new ProjectIdentifier(projectId);
+		projectService.deleteByIdentifier(id);
+		return new ResponseEntity<String>(String.format("Project with identifier '%s' was deleted", id), HttpStatus.OK);
 	}
 
 }

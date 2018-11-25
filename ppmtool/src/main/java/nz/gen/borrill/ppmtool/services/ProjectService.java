@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import nz.gen.borrill.ppmtool.domain.Project;
+import nz.gen.borrill.ppmtool.domain.ProjectIdentifier;
 import nz.gen.borrill.ppmtool.exception.ProjectIdException;
 import nz.gen.borrill.ppmtool.repositories.ProjectRepository;
 
@@ -21,10 +22,10 @@ public class ProjectService {
 		}
 	}
 	
-	public Project findProjectByIdentifier(String projectIdentifier) {
-		Project project = projectRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
+	public Project findProjectByIdentifier(ProjectIdentifier projectIdentifier) {
+		Project project = projectRepository.findByProjectIdentifierId(projectIdentifier.getId());
 		if (project==null) {
-			throw new ProjectIdException(String.format("Project identifier '%s' does not exist",  projectIdentifier.toUpperCase()));
+			throw new ProjectIdException(String.format("Project identifier '%s' does not exist",  projectIdentifier));
 		}
 		return project;
 	}
@@ -33,10 +34,10 @@ public class ProjectService {
 		return projectRepository.findAll();
 	}
 	
-	public void deleteByIdentifier(String projectIdentifier) {
-		Project project = projectRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
+	public void deleteByIdentifier(ProjectIdentifier projectIdentifier) {
+		Project project = projectRepository.findByProjectIdentifierId(projectIdentifier.getId());
 		if (project==null) {
-			throw new ProjectIdException(String.format("Cannot delete project with identifier '%s' it does not exist",  projectIdentifier.toUpperCase()));
+			throw new ProjectIdException(String.format("Cannot delete project with identifier '%s' it does not exist",  projectIdentifier));
 		}
 		projectRepository.delete(project);
 	}
