@@ -20,4 +20,12 @@ public class ProjectService {
 			throw new ProjectIdException(String.format("Project identifier '%s' already exists", project.getProjectIdentifier()));
 		}
 	}
+	
+	public Project findProjectByIdentifier(String projectIdentifier) {
+		Project project = projectRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
+		if (project==null) {
+			throw new ProjectIdException(String.format("Project identifier '%s' does not exist",  projectIdentifier.toUpperCase()));
+		}
+		return project;
+	}
 }
