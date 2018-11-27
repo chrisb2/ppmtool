@@ -14,6 +14,7 @@ public class MapValidationErrorService {
 	
 	public ResponseEntity<?> getErrorResponse(BindingResult result) {
 		if (result.hasErrors()) {
+			// TODO - this will fail if a single field can have multiple validation failures!
 			Map<String, String> errors = 
 				result.getFieldErrors().stream().collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));			
 			return new ResponseEntity<Map<String, String>>(errors, HttpStatus.BAD_REQUEST);

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import nz.gen.borrill.ppmtool.domain.Project;
-import nz.gen.borrill.ppmtool.domain.ProjectIdentifier;
+import nz.gen.borrill.ppmtool.domain.ProjectKey;
 import nz.gen.borrill.ppmtool.exception.ProjectIdException;
 import nz.gen.borrill.ppmtool.repositories.ProjectRepository;
 
@@ -18,14 +18,14 @@ public class ProjectService {
 		try {
 			return projectRepository.save(project);
 		} catch (Exception ex) {
-			throw new ProjectIdException(String.format("Project identifier '%s' already exists", project.getProjectIdentifier()));
+			throw new ProjectIdException(String.format("Project key '%s' already exists", project.getProjectKey()));
 		}
 	}
 	
-	public Project findProjectByIdentifier(ProjectIdentifier projectIdentifier) {
-		Project project = projectRepository.findByProjectIdentifierProjectId(projectIdentifier.getId());
+	public Project findProjectByIdentifier(ProjectKey projectKey) {
+		Project project = projectRepository.findByProjectKeyValue(projectKey.getValue());
 		if (project==null) {
-			throw new ProjectIdException(String.format("Project identifier '%s' does not exist",  projectIdentifier));
+			throw new ProjectIdException(String.format("Project key '%s' does not exist",  projectKey));
 		}
 		return project;
 	}
@@ -34,10 +34,10 @@ public class ProjectService {
 		return projectRepository.findAll();
 	}
 	
-	public void deleteByIdentifier(ProjectIdentifier projectIdentifier) {
-		Project project = projectRepository.findByProjectIdentifierProjectId(projectIdentifier.getId());
+	public void deleteByIdentifier(ProjectKey projectKey) {
+		Project project = projectRepository.findByProjectKeyValue(projectKey.getValue());
 		if (project==null) {
-			throw new ProjectIdException(String.format("Cannot delete project with identifier '%s', it does not exist",  projectIdentifier));
+			throw new ProjectIdException(String.format("Cannot delete project with key '%s', it does not exist",  projectKey));
 		}
 		projectRepository.delete(project);
 	}

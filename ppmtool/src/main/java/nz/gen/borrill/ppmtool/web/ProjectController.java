@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import nz.gen.borrill.ppmtool.domain.Project;
-import nz.gen.borrill.ppmtool.domain.ProjectIdentifier;
+import nz.gen.borrill.ppmtool.domain.ProjectKey;
 import nz.gen.borrill.ppmtool.services.MapValidationErrorService;
 import nz.gen.borrill.ppmtool.services.ProjectService;
 
@@ -39,9 +39,9 @@ public class ProjectController {
 		return new ResponseEntity<Project>(newproject, HttpStatus.CREATED);
 	}	
 	
-	@GetMapping("/{projectId}")
-	public ResponseEntity<?> getByIdentifier(@PathVariable ProjectIdentifier projectId) {
-		Project project = projectService.findProjectByIdentifier(projectId);
+	@GetMapping("/{projectKey}")
+	public ResponseEntity<?> getByIdentifier(@PathVariable ProjectKey projectKey) {
+		Project project = projectService.findProjectByIdentifier(projectKey);
 		return new ResponseEntity<Project>(project, HttpStatus.OK);
 	}
 	
@@ -50,10 +50,10 @@ public class ProjectController {
 		return projectService.findAll();
 	}
 	
-	@DeleteMapping("/{projectId}")
-	public ResponseEntity<?> deleteByIdentifier(@PathVariable ProjectIdentifier projectId) {
-		projectService.deleteByIdentifier(projectId);
-		return new ResponseEntity<String>(String.format("Project with identifier '%s' was deleted", projectId), HttpStatus.OK);
+	@DeleteMapping("/{projectKey}")
+	public ResponseEntity<?> deleteByIdentifier(@PathVariable ProjectKey projectKey) {
+		projectService.deleteByIdentifier(projectKey);
+		return new ResponseEntity<String>(String.format("Project with key '%s' was deleted", projectKey), HttpStatus.OK);
 	}
 
 }

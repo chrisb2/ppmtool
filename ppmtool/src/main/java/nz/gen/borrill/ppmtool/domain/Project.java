@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -26,7 +27,8 @@ public class Project {
 	private String projectName;
 	
 	@Embedded
-	private ProjectIdentifier projectIdentifier;
+	@Valid
+	private ProjectKey projectKey;
 	
 	@NotBlank(message="Project description is required")
 	private String description;
@@ -68,12 +70,12 @@ public class Project {
 		this.projectName = projectName;
 	}
 
-	public String getProjectIdentifier() {
-		return projectIdentifier.getId();
+	public ProjectKey getProjectKey() {
+		return projectKey;
 	}
 
-	public void setProjectIdentifier(String projectIdentifier) {
-		this.projectIdentifier = new ProjectIdentifier(projectIdentifier);
+	public void setProjectKey(String projectKey) {
+		this.projectKey = new ProjectKey(projectKey);
 	}
 
 	public String getDescription() {
