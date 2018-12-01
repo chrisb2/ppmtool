@@ -1,5 +1,7 @@
 package nz.gen.borrill.ppmtool.web;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import nz.gen.borrill.ppmtool.domain.Project;
-import nz.gen.borrill.ppmtool.exception.ProjectIdException;
 import nz.gen.borrill.ppmtool.services.MapValidationErrorService;
 import nz.gen.borrill.ppmtool.services.ProjectService;
 
@@ -33,47 +34,41 @@ public class ProjectController {
 	@PostMapping("")
 	public ResponseEntity<?> createProject(@Valid @RequestBody NewProjectDto projectDto, BindingResult result) {
 		ResponseEntity<?> errors = validationService.getErrorResponse(result);
-		if (errors!=null) {
+		if (errors != null) {
 			return errors;
 		}
-		Project persistedProject = this.projectService.saveOrUpdate(projectDto.getProject());
-		return new ResponseEntity<ProjectDto>(new ProjectDto(persistedProject), HttpStatus.CREATED);
+		ProjectDto resultDto = new ProjectDto(this.projectService.create(projectDto.getProject()));
+		return new ResponseEntity<ProjectDto>(resultDto, HttpStatus.CREATED);
 	}	
 	
 	@PutMapping("/{projectKey}")
-	public ResponseEntity<?> updateProject(@Valid @RequestBody UpdateProjectDto projectDto, @PathVariable ProjectKey projectKey, BindingResult result) {
+	public ResponseEntity<?> updateProject(@PathVariable ProjectKey projectKey, @Valid @RequestBody UpdateProjectDto projectDto, 
+			BindingResult result) {
 		ResponseEntity<?> errors = validationService.getErrorResponse(result);
-		if (errors!=null) {
+		if (errors != null) {
 			return errors;
 		}
 		
-		Project existingProject = null;
-		try {
-			existingProject = projectService.findProjectByIdentifier(projectKey.getValue());
-		} catch (ProjectIdException e) {
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
-		}
-		
-		Project updatedProject = projectDto.getProject(existingProject);
-		Project persistedProject = this.projectService.saveOrUpdate(updatedProject);
-		return new ResponseEntity<ProjectDto>(new ProjectDto(persistedProject), HttpStatus.OK);
+		Project updatedProject = projectDto.getProject(projectKey.getValue());
+		ProjectDto resultDto = new ProjectDto(this.projectService.update(updatedProject));
+		return new ResponseEntity<ProjectDto>(resultDto, HttpStatus.OK);
 	}	
 	
 	@DeleteMapping("/{projectKey}")
 	public ResponseEntity<?> deleteByIdentifier(@PathVariable ProjectKey projectKey) {
-		projectService.deleteByIdentifier(projectKey.getValue());
+		projectService.deleteByKey(projectKey.getValue());
 		return new ResponseEntity<String>(String.format("Project with key '%s' was deleted", projectKey), HttpStatus.OK);
 	}
 
 	@GetMapping("/{projectKey}")
 	public ResponseEntity<?> getByIdentifier(@PathVariable ProjectKey projectKey) {
-		Project project = projectService.findProjectByIdentifier(projectKey.getValue());
-		return new ResponseEntity<ProjectDto>(new ProjectDto(project), HttpStatus.OK);
+		ProjectDto resultDto = new ProjectDto(projectService.findProjectByKey(projectKey.getValue()));
+		return new ResponseEntity<ProjectDto>(resultDto, HttpStatus.OK);
 	}
 	
 	@GetMapping("")
-	public Iterable<Project> getAllProjects() {
-		return projectService.findAll();
+	public List<ProjectDto> getAllProjects() {
+		return ProjectDto.getAllProjects(projectService.findAll());
 	}
 	
 }

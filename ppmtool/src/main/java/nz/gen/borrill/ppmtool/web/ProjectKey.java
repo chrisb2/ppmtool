@@ -4,7 +4,7 @@ class ProjectKey {
 	
 	private String value;
 	
-	public ProjectKey() {}
+    ProjectKey() {}
 	
 
 	public ProjectKey(String value) {

@@ -1,6 +1,8 @@
 package nz.gen.borrill.ppmtool.web;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -28,7 +30,7 @@ class ProjectDto {
 	@JsonFormat(pattern=ProjectDto.DATE_FORMAT)
 	private Date updatedAt;
 
-	public ProjectDto(Project project) {
+	ProjectDto(Project project) {
 		this.projectKey = project.getProjectKey();
 		this.projectName = project.getProjectName();
 		this.description = project.getDescription();
@@ -37,7 +39,13 @@ class ProjectDto {
 		this.createdAt = project.getCreatedAt();
 		this.updatedAt = project.getUpdatedAt();
 	}
-
+	
+	static List<ProjectDto> getAllProjects(Iterable<Project> projects) {
+		List<ProjectDto> result = new ArrayList<>();
+		projects.forEach(project -> result.add(new ProjectDto(project)));
+		return result;
+	}
+	
 	public String getProjectKey() {
 		return projectKey;
 	}

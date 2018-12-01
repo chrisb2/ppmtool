@@ -26,7 +26,7 @@ class NewProjectDto {
 	@JsonFormat(pattern=ProjectDto.DATE_FORMAT)
 	private Date endDate;
 	
-	public NewProjectDto() {}
+	NewProjectDto() {}
 
 	public String getProjectName() {
 		return projectName;

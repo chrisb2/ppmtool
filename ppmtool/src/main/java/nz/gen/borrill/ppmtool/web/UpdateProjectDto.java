@@ -21,7 +21,7 @@ class UpdateProjectDto {
 	@JsonFormat(pattern=ProjectDto.DATE_FORMAT)
 	private Date endDate;
 	
-	public UpdateProjectDto() {}
+    UpdateProjectDto() {}
 
 	public String getProjectName() {
 		return projectName;
@@ -55,11 +55,8 @@ class UpdateProjectDto {
 		this.endDate = endDate;
 	}
 	
-	Project getProject(Project existing) {
-		Project result = new Project(existing.getProjectKey(), this.projectName, this.description, this.startDate, this.endDate);
-		result.setId(existing.getId());
-		result.setCreatedAt(existing.getCreatedAt());
-		return result;
+	Project getProject(String projectKey) {
+		return new Project(projectKey, this.projectName, this.description, this.startDate, this.endDate);
 	}
 
 }
