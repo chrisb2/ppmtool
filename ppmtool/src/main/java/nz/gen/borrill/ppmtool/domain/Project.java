@@ -2,48 +2,47 @@ package nz.gen.borrill.ppmtool.domain;
 
 import java.util.Date;
 
-import javax.persistence.Embedded;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Project {
-
-	private static final String DATE_FORMAT = "yyyy-MM-dd";
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank(message="Project name is required")
+	@NotBlank()
 	private String projectName;
 	
-	@Embedded
-	@Valid
-	private ProjectKey projectKey;
+	@NotBlank()
+	@Column(unique=true, updatable=false)
+	private String projectKey;
 	
-	@NotBlank(message="Project description is required")
+	@NotBlank()
 	private String description;
 	
-	@JsonFormat(pattern=DATE_FORMAT)
 	private Date startDate;
-	@JsonFormat(pattern=DATE_FORMAT)
 	private Date endDate;
-	@JsonFormat(pattern=DATE_FORMAT)
 	private Date createdAt;
-	@JsonFormat(pattern=DATE_FORMAT)
 	private Date updatedAt;
 	
 	public Project() {}
 	
+	public Project(String projectKey, String projectName, String description, Date startDate, Date endDate) {
+		this.projectKey = projectKey;
+		this.projectName = projectName;
+		this.description = description;
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
+
 	@PrePersist
 	protected void onCreate() {
 		this.createdAt = new Date();
@@ -70,12 +69,12 @@ public class Project {
 		this.projectName = projectName;
 	}
 
-	public ProjectKey getProjectKey() {
+	public String getProjectKey() {
 		return projectKey;
 	}
 
 	public void setProjectKey(String projectKey) {
-		this.projectKey = new ProjectKey(projectKey);
+		this.projectKey = projectKey;
 	}
 
 	public String getDescription() {

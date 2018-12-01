@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import nz.gen.borrill.ppmtool.domain.Project;
-import nz.gen.borrill.ppmtool.domain.ProjectKey;
 import nz.gen.borrill.ppmtool.exception.ProjectIdException;
 import nz.gen.borrill.ppmtool.repositories.ProjectRepository;
 
@@ -22,8 +21,8 @@ public class ProjectService {
 		}
 	}
 	
-	public Project findProjectByIdentifier(ProjectKey projectKey) {
-		Project project = projectRepository.findByProjectKeyValue(projectKey.getValue());
+	public Project findProjectByIdentifier(String projectKey) {
+		Project project = projectRepository.findByProjectKey(projectKey);
 		if (project==null) {
 			throw new ProjectIdException(String.format("Project key '%s' does not exist",  projectKey));
 		}
@@ -34,12 +33,11 @@ public class ProjectService {
 		return projectRepository.findAll();
 	}
 	
-	public void deleteByIdentifier(ProjectKey projectKey) {
-		Project project = projectRepository.findByProjectKeyValue(projectKey.getValue());
-		if (project==null) {
-			throw new ProjectIdException(String.format("Cannot delete project with key '%s', it does not exist",  projectKey));
+	public void deleteByIdentifier(String projectKey) {
+		Project project = projectRepository.findByProjectKey(projectKey);
+		if (project != null) {
+			projectRepository.delete(project);
 		}
-		projectRepository.delete(project);
 	}
 	
 }
