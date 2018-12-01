@@ -7,7 +7,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import nz.gen.borrill.ppmtool.domain.Project;
-import nz.gen.borrill.ppmtool.exception.ProjectIdConflictException;
 import nz.gen.borrill.ppmtool.repositories.ProjectRepository;
 
 @Service

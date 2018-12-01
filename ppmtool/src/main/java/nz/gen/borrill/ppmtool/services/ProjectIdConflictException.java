@@ -1,4 +1,4 @@
-package nz.gen.borrill.ppmtool.exception;
+package nz.gen.borrill.ppmtool.services;
 
 public class ProjectIdConflictException extends RuntimeException {
 
