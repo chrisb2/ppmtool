@@ -3,6 +3,7 @@ package nz.gen.borrill.ppmtool.services;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import nz.gen.borrill.ppmtool.domain.Project;
@@ -19,8 +20,8 @@ public class ProjectService {
 	public Project create(Project project) {
 		try {
 			return projectRepository.save(project);
-		} catch (Exception ex) {
-			throw new ProjectIdException(String.format("Project key '%s' already exists", project.getProjectKey()));
+		} catch (DataIntegrityViolationException ex) {
+			throw new ProjectIdException(String.format("Project key '%s' already exists", project.getProjectKey()), ex);
 		}
 	}
 	
@@ -32,11 +33,7 @@ public class ProjectService {
 	}
 	
 	public Project findProjectByKey(String projectKey) {
-		Project project = projectRepository.findByProjectKey(projectKey);
-		if (project==null) {
-			throw new ProjectIdException(String.format("Project key '%s' does not exist",  projectKey));
-		}
-		return project;
+		return projectRepository.findByProjectKey(projectKey);
 	}
 	
 	public Iterable<Project> findAll() {
