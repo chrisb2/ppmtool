@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler
-	public final ResponseEntity<Object> handleProjectIdException(ProjectIdException ex) {
+	public final ResponseEntity<Object> handleProjectIdException(ProjectIdConflictException ex) {
 		return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.CONFLICT);
 	}
 }
