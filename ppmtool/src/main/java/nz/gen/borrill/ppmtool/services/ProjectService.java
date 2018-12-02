@@ -20,7 +20,7 @@ public class ProjectService {
 		try {
 			return projectRepository.save(project);
 		} catch (DataIntegrityViolationException ex) {
-			throw new ProjectIdConflictException(String.format("Project key '%s' already exists", project.getProjectKey()), ex);
+			throw new ProjectKeyConflictException(project.getProjectKey(), ex);
 		}
 	}
 	
@@ -28,11 +28,15 @@ public class ProjectService {
 		Project existing = findProjectByKey(project.getProjectKey());
 		project.setId(existing.getId());
 		project.setCreatedAt(existing.getCreatedAt());
-		return projectRepository.save(project);
+		return projectRepository.save(project);			
 	}
 	
 	public Project findProjectByKey(String projectKey) {
-		return projectRepository.findByProjectKey(projectKey);
+		Project project = projectRepository.findByProjectKey(projectKey);
+		if (project == null) {
+			throw new ProjectKeyMissingException(projectKey);			
+		}
+		return project;
 	}
 	
 	public Iterable<Project> findAll() {

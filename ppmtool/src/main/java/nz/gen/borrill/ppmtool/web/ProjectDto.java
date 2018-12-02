@@ -18,16 +18,16 @@ class ProjectDto {
 	
 	private String description;
 	
-	@JsonFormat(pattern=ProjectDto.DATE_FORMAT)
+	@JsonFormat(pattern=DATE_FORMAT)
 	private Date startDate;
 	
-	@JsonFormat(pattern=ProjectDto.DATE_FORMAT)
+	@JsonFormat(pattern=DATE_FORMAT)
 	private Date endDate;
 
-	@JsonFormat(pattern=ProjectDto.DATE_FORMAT)
+	@JsonFormat(pattern=DATE_FORMAT)
 	private Date createdAt;
 	
-	@JsonFormat(pattern=ProjectDto.DATE_FORMAT)
+	@JsonFormat(pattern=DATE_FORMAT)
 	private Date updatedAt;
 
 	ProjectDto(Project project) {

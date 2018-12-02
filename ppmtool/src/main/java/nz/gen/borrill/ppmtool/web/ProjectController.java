@@ -63,9 +63,6 @@ public class ProjectController {
 	@GetMapping("/{projectKey}")
 	public ResponseEntity<?> getByIdentifier(@PathVariable ProjectKey projectKey) {
 		Project project = projectService.findProjectByKey(projectKey.getValue());
-		if (project == null) {
-			return new ResponseEntity<String>(String.format("Project with key '%s' does not exist", projectKey), HttpStatus.NOT_FOUND);
-		}
 		return new ResponseEntity<ProjectDto>(new ProjectDto(project), HttpStatus.OK);
 	}
 	

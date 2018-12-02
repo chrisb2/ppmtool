@@ -7,14 +7,21 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import nz.gen.borrill.ppmtool.services.ProjectIdConflictException;
+import nz.gen.borrill.ppmtool.services.ProjectKeyConflictException;
+import nz.gen.borrill.ppmtool.services.ProjectKeyMissingException;
 
 @RestController
 @ControllerAdvice
 public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler
-	public final ResponseEntity<Object> handleProjectIdException(ProjectIdConflictException ex) {
+	public final ResponseEntity<Object> handleProjectKeyConflictException(ProjectKeyConflictException ex) {
 		return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.CONFLICT);
 	}
+	
+	@ExceptionHandler
+	public final ResponseEntity<Object> handleProjectKeyMissingException(ProjectKeyMissingException ex) {
+		return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.NOT_FOUND);
+	}
+
 }
