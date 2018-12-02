@@ -9,27 +9,29 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import javax.validation.constraints.NotBlank;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(name = "uk_project_key", columnNames= { "projectKey" } ))
 public class Project {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank()
+	@Column(nullable=false)
 	private String projectName;
 	
-	@NotBlank()
-	@Column(unique=true, updatable=false)
+	@Column(nullable=false, updatable=false)
 	private String projectKey;
 	
-	@NotBlank()
+	@Column(nullable=false)
 	private String description;
 	
 	private Date startDate;
 	private Date endDate;
+	@Column(nullable=false)
 	private Date createdAt;
 	private Date updatedAt;
 	
