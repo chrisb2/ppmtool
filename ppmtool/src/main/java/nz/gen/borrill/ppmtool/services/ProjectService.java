@@ -1,10 +1,9 @@
 package nz.gen.borrill.ppmtool.services;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import nz.gen.borrill.ppmtool.domain.Project;
 import nz.gen.borrill.ppmtool.repositories.ProjectRepository;
@@ -26,8 +25,7 @@ public class ProjectService {
 	
 	public Project update(Project project) {
 		Project existing = findProjectByKey(project.getProjectKey());
-		project.setId(existing.getId());
-		project.setCreatedAt(existing.getCreatedAt());
+		project.updateFromExisting(existing);
 		return projectRepository.save(project);			
 	}
 	

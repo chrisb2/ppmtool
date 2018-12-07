@@ -44,6 +44,12 @@ public class Project {
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
+	
+	public void updateFromExisting(Project existing) {
+		setId(existing.getId());
+		setCreatedAt(existing.getCreatedAt());
+	}
+	
 
 	@PrePersist
 	protected void onCreate() {
@@ -107,7 +113,7 @@ public class Project {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	private void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
 
@@ -115,8 +121,4 @@ public class Project {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-	
 }

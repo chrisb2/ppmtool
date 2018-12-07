@@ -11,6 +11,7 @@ import nz.gen.borrill.ppmtool.domain.Project;
 class ProjectDto {
 	
 	protected static final String DATE_FORMAT = "yyyy-MM-dd";
+	private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
 	private String projectKey;
 	
@@ -24,10 +25,10 @@ class ProjectDto {
 	@JsonFormat(pattern=DATE_FORMAT)
 	private Date endDate;
 
-	@JsonFormat(pattern=DATE_FORMAT)
+	@JsonFormat(pattern=DATE_TIME_FORMAT)
 	private Date createdAt;
 	
-	@JsonFormat(pattern=DATE_FORMAT)
+	@JsonFormat(pattern=DATE_TIME_FORMAT)
 	private Date updatedAt;
 
 	ProjectDto(Project project) {

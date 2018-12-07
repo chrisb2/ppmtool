@@ -12,7 +12,7 @@ import nz.gen.borrill.ppmtool.services.ProjectKeyMissingException;
 
 @RestController
 @ControllerAdvice
-public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
+public class ProjectApplicationExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler
 	public final ResponseEntity<Object> handleProjectKeyConflictException(ProjectKeyConflictException ex) {
